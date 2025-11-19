@@ -3,7 +3,6 @@ const router = express.Router();
 const { check, validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const config = require('config');
 
 const User = require('../../models/User');
 
@@ -18,6 +17,7 @@ router.post(
     check('password', 'Password must be 6 characters or more').isLength({ min: 6 })
   ],
   async (req, res) => {
+
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
@@ -27,6 +27,7 @@ router.post(
 
     try {
       let user = await User.findOne({ email });
+
       if (user) {
         return res.status(400).json({
           errors: [{ msg: 'User already exists' }]
@@ -44,15 +45,17 @@ router.post(
         user: { id: user.id }
       };
 
+      // IMPORTANT: Use Vercel environment variables (no config)
       jwt.sign(
         payload,
-        config.get('jwtSecret'),
+        process.env.JWT_SECRET,     // <-- FIXED
         { expiresIn: '5h' },
         (err, token) => {
           if (err) throw err;
           return res.json({ token });
         }
       );
+
     } catch (err) {
       console.error(err);
       res.status(500).send('Server error');

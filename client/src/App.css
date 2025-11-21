@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Raleway:wght@300;400;500;700&display=swap');
 :root {
-  /* Light mode colors */
-  --primary-color: #6366f1; /* Indigo */
+ 
+  --primary-color: #6366f1; 
   --secondary-color: #8b5cf6; /* Violet */
   --accent-color: #06b6d4; /* Cyan */
   --bg-light: #f8fafc; /* Slate light */
